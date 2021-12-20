@@ -36,18 +36,8 @@ const DefaultMap = props => {
         const countriesLocations = results.map((data, i)=>{
             return (
                 <Marker
-                key={i}
-                coordinate={{ latitude :data.countryInfo.lat , longitude : data.countryInfo.long }}
-                // styles={{
-                //     color: 'red',
-                //     backgroundColor:'#fff',
-                //     height: '10px',
-                //     width: '10px',
-                //     textAlign: 'center'
-                // }}
-                
-                // title= {data.cases.toString()}
-                
+                    key={i}
+                    coordinate={{ latitude :data.countryInfo.lat , longitude : data.countryInfo.long }}                
                 >
                   <View style={styles.map.marker.container}>
                 <Text style={styles.map.marker.title}>{numeral(data.cases).format('0,0')}</Text>
