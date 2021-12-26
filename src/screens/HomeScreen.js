@@ -2,7 +2,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import DefaultMap from './tabs/DefaultMap';
 import CommunityMap from './tabs/CommunityMap';
 import YourMap from './tabs/YourMap';
 
@@ -12,7 +11,7 @@ const HomeScreen = () => {
   return (
   
   <topTab.Navigator>
-        <topTab.Screen name='DefaultMap' component={DefaultMap}/>
+       
         <topTab.Screen name='Community' component={CommunityMap}/>
         <topTab.Screen name='YourMap' component={YourMap}/>
   </topTab.Navigator>

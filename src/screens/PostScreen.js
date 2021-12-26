@@ -1,30 +1,25 @@
-import React, {useEffect} from 'react';
-import {View, Text, Button} from 'react-native';
-import PushNotification from 'react-native-push-notification';
-
-export default function PostScreen() {
-  useEffect(() => {
-    createChannels();
-  }, []);
-
-  const createChannels = () => {
-    PushNotification.createChannel({
-      channelId: 'test-notification',
-      channelName: 'Test Notification',
-    });
-  };
-  const sendNotification = () => {
-    PushNotification.localNotification({
-      channelId: 'test-notification',
-      title: 'Clicked!',
-      message: "Because I'm very lazy to test it!",
-    });
-  };
-
+/* eslint-disable prettier/prettier */
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+const PostScreen = () => {
   return (
-    <View>
-      <Text>PostScreen</Text>
-      <Button title="Notification" onPress={() => sendNotification()}></Button>
+    <View styles={{color:'#000'}}>
+      <GooglePlacesAutocomplete
+      placeholder='Search'
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: 'AIzaSyAb9D9zhHDHtwuVopsHMrpVnGCbcRZ3fp0',
+        language: 'vi',
+      }}
+    />
     </View>
-  );
+  )
 }
+
+export default PostScreen
+
+const styles = StyleSheet.create({})

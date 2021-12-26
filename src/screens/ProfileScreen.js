@@ -1,207 +1,172 @@
-// import React, { Component } from 'react';
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   Image,
-//   TouchableOpacity
-// } from 'react-native';
-
-// export default class Profile extends Component {
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//           <View style={styles.header}></View>
-//           <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-//           <View style={styles.body}>
-//             <View style={styles.bodyContent}>
-//               <Text style={styles.name}>John Doe</Text>
-//               <Text style={styles.info}>UX Designer / Mobile developer</Text>
-//               <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,</Text>
-              
-//             </View>
-//         </View>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   header:{
-//     backgroundColor: "#00BFFF",
-//     height:200,
-//   },
-//   avatar: {
-//     width: 130,
-//     height: 130,
-//     borderRadius: 63,
-//     borderWidth: 4,
-//     borderColor: "white",
-//     marginBottom:10,
-//     alignSelf:'center',
-//     position: 'absolute',
-//     marginTop:130
-//   },
-//   name:{
-//     fontSize:22,
-//     color:"#FFFFFF",
-//     fontWeight:'600',
-//   },
-//   body:{
-//     marginTop:40,
-//   },
-//   bodyContent: {
-//     flex: 1,
-//     alignItems: 'center',
-//     padding:30,
-//   },
-//   name:{
-//     fontSize:28,
-//     color: "#696969",
-//     fontWeight: "600"
-//   },
-//   info:{
-//     fontSize:16,
-//     color: "#00BFFF",
-//     marginTop:10
-//   },
-//   description:{
-//     fontSize:16,
-//     color: "#696969",
-//     marginTop:10,
-//     textAlign: 'center'
-//   },
-//   buttonContainer: {
-//     marginTop:10,
-//     height:45,
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginBottom:20,
-//     width:250,
-//     borderRadius:30,
-//     backgroundColor: "#00BFFF",
-//   },
-// });
-
-/* eslint-disable prettier/prettier */
 import React from 'react';
-import { 
-    View, 
-    Text, 
-    Button, 
-    TouchableOpacity, 
-    Dimensions,
-    TextInput,
-    Platform,
-    StyleSheet,
-    ScrollView,
-    Image,
-    StatusBar
-} from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
+import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  Avatar,
+  Title,
+  Caption,
+  Text,
+  TouchableRipple,
+} from 'react-native-paper';
 
-const ProfileScreen = ({navigation}) => {
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-    return (
-      <View style={styles.container}>
-          <StatusBar backgroundColor='#7F5DF0' barStyle="light-content"/>
-        <View style={styles.header}>
-            <Text style={styles.text_header}></Text>
+// eslint-disable-next-line no-unused-vars
+// import Share from 'react-native-share';
+
+import files from '../assets/filesBase64';
+
+const ProfileScreen = () => {
+
+  // const myCustomShare = async() => {
+  //   const shareOptions = {
+  //     message: 'Using this App to help people out there from covid-19',
+  //     url: files.appLogo,
+  //     // urls: [files.image1, files.image2]
+  //   }
+
+  //   try {
+  //     const ShareResponse = await Share.open(shareOptions);
+  //     console.log(JSON.stringify(ShareResponse));
+  //   } catch(error) {
+  //     console.log('Error => ', error);
+  //   }
+  // };
+
+  return (
+    <SafeAreaView style={styles.container}>
+
+      <View style={styles.userInfoSection}>
+        <View style={{flexDirection: 'row', marginTop: 15}}>
+          <Avatar.Image 
+            source={{
+              uri: 'https://api.adorable.io/avatars/80/abott@adorable.png',
+            }}
+            size={80}
+          />
+          <View style={{marginLeft: 20}}>
+            <Title style={[styles.title, {
+              marginTop:15,
+              marginBottom: 5,
+            }]}>John Doe</Title>
+            <Caption style={styles.caption}>@j_doe</Caption>
+          </View>
         </View>
-        <Animatable.View 
-            animation="fadeInUpBig"
-            style={styles.footer}
-        >
-            <ScrollView>
-            <View style={styles.header}></View>
-            <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-
-            </ScrollView>
-        </Animatable.View>
       </View>
-    );
+
+      <View style={styles.userInfoSection}>
+        <View style={styles.row}>
+          <Icon name="map-marker-radius" color="#777777" size={20}/>
+          <Text style={{color:"#777777", marginLeft: 20}}>Kolkata, India</Text>
+        </View>
+        <View style={styles.row}>
+          <Icon name="phone" color="#777777" size={20}/>
+          <Text style={{color:"#777777", marginLeft: 20}}>+91-900000009</Text>
+        </View>
+        <View style={styles.row}>
+          <Icon name="email" color="#777777" size={20}/>
+          <Text style={{color:"#777777", marginLeft: 20}}>john_doe@email.com</Text>
+        </View>
+      </View>
+
+      <View style={styles.infoBoxWrapper}>
+          <View style={[styles.infoBox, {
+            borderRightColor: '#dddddd',
+            borderRightWidth: 1
+          }]}>
+            <Title>₹140.50</Title>
+            <Caption>Wallet</Caption>
+          </View>
+          <View style={styles.infoBox}>
+            <Title>12</Title>
+            <Caption>Orders</Caption>
+          </View>
+      </View>
+
+      <View style={styles.menuWrapper}>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.menuItem}>
+            <Icon name="heart-outline" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Your Favorites</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.menuItem}>
+            <Icon name="credit-card" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Payment</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={myCustomShare}>
+          <View style={styles.menuItem}>
+            <Icon name="share-outline" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Tell Your Friends</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.menuItem}>
+            <Icon name="account-check-outline" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Support</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.menuItem}>
+            <Icon name="settings-helper" color="#FF6347" size={25}/>
+            <Text style={styles.menuItemText}>Settings</Text>
+          </View>
+        </TouchableRipple>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1, 
-      backgroundColor: '#7F5DF0'
-    },
-    avatar: {
-            width: 130,
-            height: 130,
-            borderRadius: 63,
-            borderWidth: 4,
-            borderColor: "white",
-            marginBottom:100,
-            alignSelf:'center',
-            position: 'absolute',
-            marginTop:130
-          },
-    header: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        paddingHorizontal: 20,
-        paddingBottom: 50
-    },
-    footer: {
-        flex: Platform.OS === 'ios' ? 3 : 5,
-        backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        paddingHorizontal: 20,
-        paddingVertical: 30
-    },
-    text_header: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 30
-    },
-    text_footer: {
-        color: '#05375a',
-        fontSize: 18
-    },
-    action: {
-        flexDirection: 'row',
-        marginTop: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
-        paddingBottom: 5
-    },
-    textInput: {
-        flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
-        paddingLeft: 10,
-        color: '#05375a',
-    },
-    button: {
-        alignItems: 'center',
-        marginTop: 50
-    },
-    signIn: {
-        width: '100%',
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10
-    },
-    textSign: {
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    textPrivate: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginTop: 20
-    },
-    color_textPrivate: {
-        color: 'grey'
-    }
-  });
+  container: {
+    flex: 1,
+  },
+  userInfoSection: {
+    paddingHorizontal: 30,
+    marginBottom: 25,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  caption: {
+    fontSize: 14,
+    lineHeight: 14,
+    fontWeight: '500',
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  infoBoxWrapper: {
+    borderBottomColor: '#dddddd',
+    borderBottomWidth: 1,
+    borderTopColor: '#dddddd',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    height: 100,
+  },
+  infoBox: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuWrapper: {
+    marginTop: 10,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+  },
+  menuItemText: {
+    color: '#777777',
+    marginLeft: 20,
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 26,
+  },
+});
