@@ -738,7 +738,9 @@ const styles = {
                 borderWidth: 1,
                 borderRadius: 10,
                 borderColor: '#bdbdbd',
-                backgroundColor: markerColor
+                backgroundColor: markerColor,
+                flexDirection: 'row',
+                width: 80,
             },
             title: {
                 color: 'white',
