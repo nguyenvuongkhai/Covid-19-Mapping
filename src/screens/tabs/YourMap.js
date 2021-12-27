@@ -1,50 +1,43 @@
 /* eslint-disable prettier/prettier */
-import React,{useState, useEffect} from "react";
-import { StyleSheet, Text, View, Image, Modal, Pressable, Button, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Image, Modal, Pressable, TouchableHighlight, Button, TextInput } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
-import axios from 'axios' 
-import {format} from 'timeago.js'
-import RNPickerSelect from 'react-native-picker-select';
-import {Formik} from 'formik'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios'
+import { format } from 'timeago.js'
+import { Formik } from 'formik'
 export default function YourMap() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState({ latitude: 0, longitude: 0, });
+  const [newPlace, setNewPlace] = useState({ latitude: 0, longitude: 0 });
+  const onHandlePress = (e) => {
+    const { latitude, longitude } = e.nativeEvent.coordinate;
+    setNewPlace({ latitude, longitude });
+    onChangeModal();
+  };
+  const onChangeModal = () => {
+    setIsVisible(!isVisible);
+  };
 
-  const [currentPosition,setCurrentPosition] = useState({
-    latitude:0,
-    longitude:0,
-  });
-  const [pins,setPins] = useState([]);
-  const currentUser = 'Peter';
-  const [newPlace,setNewPlace] = useState({
-    latitude:0,
-    longitude:0,
-  });
-  const onHandlePress = (e)=>{
-    console.log(e.nativeEvent.coordinate);
-    const {latitude,longitude}= e.nativeEvent.coordinate;
-    setNewPlace({
-      latitude,
-      longitude,
-    })
-  }
-    useEffect(() => {
+  useEffect(() => {
     Geolocation.getCurrentPosition(
-      position=>{
-      const {latitude, longitude} = position.coords;
-      setCurrentPosition({
-        latitude,
-        longitude,
-      });
+      position => {
+        const { latitude, longitude } = position.coords;
+        setCurrentPosition({
+          latitude,
+          longitude,
+        });
       },
-      error=>{
+      error => {
         console.log(error.code, error.message);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    )
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    );
     Geolocation.watchPosition(
       position => {
-          const {latitude,longitude} = position.coords;
-          setCurrentPosition({latitude,longitude});
+        const { latitude, longitude } = position.coords;
+        setCurrentPosition({ latitude, longitude });
       },
       error => {
         console.log(error);
@@ -54,33 +47,19 @@ export default function YourMap() {
         enableHighAccuracy: true,
         timeout: 20000,
         maximumAge: 0,
-        distanceFilter: 0
+        distanceFilter: 0,
       }
     );
-    const getPins = async () =>{
-      try {
-          const res = await axios.get('https://back-end-covid-19-mapping.vercel.app/api/pins')
-          setPins(res.data)
-      } catch (error) {
-        
-      }
-    }
-    getPins()
-  }, 
-  []);
+  }, []);
 
   return (
     <View style={styles.container}>
-    
-    {/*Render our MapView*/}
+
+      {/*Render our MapView*/}
       <MapView
         style={styles.map}
         //specify our coordinates.
         initialRegion={{
-          // latitude: 21.028511,
-          // longitude: 105.804817,
-          // latitudeDelta: 0.0922,
-          // longitudeDelta: 0.0421,
           latitude: currentPosition.latitude,
           longitude: currentPosition.longitude,
           latitudeDelta: 0.0922,
@@ -88,98 +67,77 @@ export default function YourMap() {
         }}
         zoomTapEnabled={false}
         onLongPress={onHandlePress}
-        
-         //onRegionChangeComplete runs when the user stops dragging MapView
-    
+      //onRegionChangeComplete runs when the user stops dragging MapView
       >
         <Marker
           coordinate={{
-          latitude:currentPosition.latitude,
-          longitude:currentPosition.longitude,
-        }}
+            latitude: currentPosition.latitude,
+            longitude: currentPosition.longitude,
+          }}
           pinColor="#fff"
-      >
-      <Callout tooltip>
-        <View>
-        <View style={styles.bubble}>
-        <Text style={styles.name}>Restaurant</Text>
-        </View>
-                <View style={styles.arrowBorder} />
-                <View style={styles.arrow} />
-        </View>
-      </Callout>
-      </Marker>
-
-      {pins.map((p)=>(
-        <Marker
-        key={p._id}
-        coordinate={{
-          latitude:p.lat,
-          longitude:p.long,
-        }}
-        pinColor={p.username === currentUser ? "blue":"red"}
         >
-        <Callout tooltip>
-        <View>
-        <View style={styles.bubble}>
-        <Text style={styles.name}>{p.title}</Text>
-        <Text style={styles.text}>{p.desc}</Text>
-        <Text style={styles.text}>Created by: {p.username}</Text>
-        <Text style={styles.text}>{format(p.createdAt)}</Text>
-
-        </View>
-                <View style={styles.arrowBorder} />
-                <View style={styles.arrow} />
-        </View>
-      </Callout>
-        </Marker>
-      ))}
-      {
-        newPlace &&(
-          <Marker
-            coordinate={{
-              latitude: newPlace.latitude,
-              longitude: newPlace.longitude,
-            }}
-          >
-          {/* <Formik>
-           <View>
-           <View style={styles.bubble}>
-              <Text style={styles.text}>Title</Text>
-              <TextInput style={{
-                 height: 40 ,
-                margin: 12,
-                borderWidth:1,
-              }}
-                placeholder="type me"
-              />
-              <Text style={styles.text}>Desc</Text>
-              <TextInput style={{
-                 height: 20,
-                margin: 12,
-                borderWidth: 1,
-              }}/>
-              <Text style={styles.text}>Rating</Text>
-              <RNPickerSelect
-              onValueChange={(value) => console.log(value)}
-              items={[
-                { label: '1', value: 'football' },
-                { label: '2', value: 'baseball' },
-                { label: '3', value: 'hockey' },
-            ]}/>
-
-              <Button title="Add Pin" onPress={(e)=>{console.log("pressed")}}/>
+          <Callout tooltip>
+            <View>
+              <View style={styles.bubble}>
+                <Text style={styles.name}>Restaurant</Text>
+              </View>
+              <View style={styles.arrowBorder} />
+              <View style={styles.arrow} />
             </View>
-               <View style={styles.arrowBorder} />
-                <View style={styles.arrow} />
-           </View>
-          </Formik> */}
-          </Marker>
+          </Callout>
+        </Marker>
 
-        )
-      }
+        {
+          newPlace && (
+            <Marker
+              coordinate={{
+                latitude: newPlace.latitude,
+                longitude: newPlace.longitude,
+              }}
+            >
+            </Marker>
+          )
+        }
       </MapView>
-
+      <Modal
+        transparent
+        visible={isVisible}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={{ color: "black" }}>My Form</Text>
+              <TouchableHighlight
+                onPress={() => onChangeModal()}
+              >
+                <Ionicons color="black" name="close" size={30}></Ionicons>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.modalFooter}>
+              <TextInput
+                style={styles.modalInput}
+                placeholder="Text Input"
+              />
+              <TextInput
+                style={styles.modalInput}
+                placeholder="Text Input"
+              />
+              <TextInput
+                style={styles.modalInput}
+                placeholder="Text Input"
+              />
+              <TextInput
+                style={styles.modalInput}
+                placeholder="Text Input"
+              />
+              <Button
+                title="Submit"
+                style={{ marginTop: 10 }}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -193,6 +151,39 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '80%',
+    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    elevation: 20,
+  },
+  modalHeader: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10
+  },
+  modalFooter: {
+    width: "100%",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  modalInput: {
+    width: "90%",
+    backgroundColor: "gray",
+    borderRadius: 10,
+    margin: 3
   },
   bubble: {
     flexDirection: 'column',
@@ -223,14 +214,14 @@ const styles = StyleSheet.create({
   },
   // Character name
   name: {
-    alignSelf:'center',
+    alignSelf: 'center',
     fontSize: 20,
     marginBottom: 10,
-    color:"purple"
+    color: "purple"
   },
-  text:{
+  text: {
     color: "black",
-    fontSize:10,
+    fontSize: 10,
   },
   // Character image
   image: {

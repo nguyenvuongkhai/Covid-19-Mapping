@@ -81,8 +81,8 @@ export default function AnnouncementScreen() {
     let check = false;
     VNDistrict.features.map(item => {
       if (
-        item.properties.Ten_Tinh == 'Quảng Trị' &&
-        item.properties.Ten_Huyen == 'Hai Lang'
+        item.properties.Ten_Tinh == 'Đà Nẵng' &&
+        item.properties.Ten_Huyen == 'Lien Chieu'
       ) {
         const coordinates = item.geometry.coordinates;
 
